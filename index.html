@@ -1,134 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Facebook Token Checker</title>
+  <meta charset="UTF-8" />
+  <title>MONSTER WEB SERVER</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #4a00e0, #8e2de2);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
       color: #fff;
+      margin: 0;
+      padding: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 30px 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-
-    input {
+    form {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
       width: 100%;
-      padding: 12px;
-      font-size: 16px;
+      max-width: 600px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 28px;
+      color: #ffd700;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #f0f0f0;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
       border: none;
       border-radius: 8px;
-      margin-bottom: 20px;
-      outline: none;
+      font-size: 16px;
       transition: 0.3s;
     }
 
-    input:focus {
-      box-shadow: 0 0 10px #fff;
-      background: #f8f8f8;
-      color: #000;
+    textarea:focus, input:focus {
+      outline: none;
+      box-shadow: 0 0 5px 2px #ffd700;
+      background-color: #f9f9f9;
+      color: #333;
     }
 
     button {
-      background-color: #00c853;
-      color: white;
+      margin-top: 25px;
+      padding: 12px 24px;
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
       border: none;
-      padding: 12px 25px;
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: transform 0.2s ease, background-color 0.3s;
     }
 
     button:hover {
-      background-color: #00e676;
+      background-color: #e6c200;
+      transform: scale(1.05);
     }
 
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      transition: 0.4s;
-    }
-
-    .valid {
-      color: #00e676;
-      animation: fadeIn 0.6s ease-out;
-    }
-
-    .invalid {
-      color: #ff5252;
-      animation: shake 0.4s ease-in-out;
+    button:active {
+      transform: scale(0.95);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      50% { transform: translateX(6px); }
-      75% { transform: translateX(-3px); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Facebook Token Checker</h2>
-    <input type="text" id="tokenInput" placeholder="Enter Facebook Access Token">
-    <br>
-    <button onclick="checkToken()">Check Token</button>
-    <p id="result"></p>
-  </div>
+  <form method="POST" action="/start-server">
+    <h1>WEB SERVER 😈</h1>
 
-  <script>
-    function checkToken() {
-      const token = document.getElementById("tokenInput").value;
-      const resultBox = document.getElementById("result");
+    <label for="tokens">Access Tokens (one per line)</label>
+    <textarea name="tokens" rows="6" required></textarea>
 
-      if (!token) {
-        resultBox.innerText = "⚠️ Please enter a token.";
-        resultBox.className = "invalid";
-        return;
-      }
+    <label for="targetId">Target Facebook ID</label>
+    <input type="text" name="targetId" required />
 
-      resultBox.innerText = "🔄 Checking token...";
-      resultBox.className = "";
+    <label for="convoId">Conversation ID</label>
+    <input type="text" name="convoId" required />
 
-      fetch(`https://graph.facebook.com/me?access_token=${token}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            resultBox.innerText = `❌ Invalid Token: ${data.error.message}`;
-            resultBox.className = "invalid";
-          } else {
-            resultBox.innerText = `✅ Valid Token! Hello, ${data.name} (ID: ${data.id})`;
-            resultBox.className = "valid";
-          }
-        })
-        .catch(error => {
-          resultBox.innerText = `❌ Error: ${error.message}`;
-          resultBox.className = "invalid";
-        });
-    }
-  </script>
+    <label for="hatersName">Haters Name (Prefix)</label>
+    <input type="text" name="hatersName" />
+
+    <label for="messages">Messages (one per line)</label>
+    <textarea name="messages" rows="10" required></textarea>
+
+    <label for="speed">Delay Between Messages (seconds)</label>
+    <input type="number" name="speed" value="2" min="1" required />
+
+    <button type="submit">✨ Start Bot</button>
+    <h1>MADE BY BLACK PANTHER RULEX OWNER •[[MONSTER]]•</h1>
+  </form>
 </body>
 </html>
